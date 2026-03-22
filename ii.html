@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深海生存 | Deep Sea Survival</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            overflow-x: hidden;
+            background-color: #000510;
+        }
+        
+        /* Deep Sea Gradient Background */
+        .deep-sea-bg {
+            background: linear-gradient(180deg, #000428 0%, #001e3c 40%, #004e92 100%);
+            position: relative;
+        }
+
+        /* Animated Bubbles */
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rise 10s infinite ease-in;
+            pointer-events: none;
+        }
+
+        @keyframes rise {
+            0% { bottom: -100px; transform: translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { bottom: 100vh; transform: translateX(-50px); opacity: 0; }
+        }
+
+        /* Light Rays Effect */
+        .light-ray {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            width: 200px;
+            height: 150vh;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, transparent 80%);
+            transform: rotate(25deg);
+            filter: blur(20px);
+            animation: sway 8s infinite ease-in-out alternate;
+            pointer-events: none;
+        }
+        
+        .light-ray:nth-child(2) { left: 20%; animation-delay: 2s; width: 100px; opacity: 0.5; }
+        .light-ray:nth-child(3) { left: 80%; animation-delay: 4s; width: 150px; opacity: 0.3; transform: rotate(-15deg); }
+
+        @keyframes sway {
+            0% { transform: rotate(20deg) translateX(0); }
+            100% { transform: rotate(30deg) translateX(20px); }
+        }
+
+        /* Text Glow */
+        .glow-text {
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 100, 255, 0.3);
+        }
+
+        /* Button Styles */
+        .download-btn {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 114, 255, 0.5);
+        }
+
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .download-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Mirror Link */
+        .mirror-link {
+            color: #00c6ff;
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 198, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .mirror-link:hover {
+            color: #4dd0e1;
+            text-decoration-color: #4dd0e1;
+            text-shadow: 0 0 10px rgba(0, 198, 255, 0.5);
+        }
+
+        /* Language Toggle */
+        .lang-btn {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .lang-btn.active {
+            background: rgba(255,255,255,0.2);
+            border-color: white;
+        }
+
+        /* Floating Animation for Title */
+        .float-anim {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="deep-sea-bg min-h-screen text-white flex flex-col items-center justify-center relative">
+
+    <!-- Background Effects -->
+    <div class="light-ray"></div>
+    <div class="light-ray"></div>
+    <div class="light-ray"></div>
+    
+    <!-- Bubbles Container -->
+    <div id="bubbles-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Language Toggle -->
+    <div class="absolute top-6 right-6 z-20 flex gap-2 bg-black/20 backdrop-blur-md p-1 rounded-full">
+        <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn active px-4 py-1 rounded-full text-sm font-bold">中文</button>
+        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn px-4 py-1 rounded-full text-sm font-bold">English</button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="z-10 text-center px-4 max-w-4xl mx-auto">
+        
+        <!-- Icon/Logo Placeholder -->
+        <div class="mb-8 float-anim">
+            <div class="w-24 h-24 mx-auto bg-gradient-to-br from-cyan-400 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-cyan-500/50 rotate-3 hover:rotate-6 transition-transform duration-500">
+                <svg class="w-14 h-14 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="text-6xl md:text-8xl font-black mb-4 tracking-tight glow-text leading-tight" id="main-title">
+            深海生存
+        </h1>
+        
+        <!-- Subtitle -->
+        <p class="text-xl md:text-2xl text-cyan-200/80 font-light tracking-widest uppercase mb-12" id="sub-title">
+            我的世界整合包
+        </p>
+
+        <!-- Download Section -->
+        <div class="flex flex-col items-center gap-4">
+            <!-- Main Download Button -->
+            <button onclick="downloadMain()" class="download-btn group relative px-12 py-5 rounded-full text-xl font-bold text-white shadow-lg transform transition-all active:scale-95">
+                <span class="relative z-10 flex items-center gap-3" id="download-btn-text">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    立即下载
+                </span>
+            </button>
+
+            <!-- Slow Download Warning + Mirror Link -->
+            <div class="flex items-center gap-2 text-sm text-gray-400 mt-2">
+                <span id="slow-text">下载速度慢？</span>
+                <span onclick="downloadMirror()" class="mirror-link font-medium" id="mirror-text">选择百度网盘下载</span>
+            </div>
+        </div>
+
+        <!-- Version Info -->
+        <div class="mt-8 text-xs text-cyan-500/50 font-mono" id="version-text">
+            v1.0.0 • For Minecraft 1.20+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="absolute bottom-4 text-center w-full text-white/20 text-xs">
+        <p>&copy; 2024 Deep Sea Survival Team. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Language Data
+        const translations = {
+            zh: {
+                title: "深海生存",
+                subtitle: "我的世界整合包",
+                download: "立即下载",
+                slow: "下载速度慢？",
+                mirror: "选择百度网盘下载",
+                version: "v1.0.0 • 适用于 Minecraft 1.20+"
+            },
+            en: {
+                title: "Deep Sea Survival",
+                subtitle: "Minecraft Modpack",
+                download: "Download Now",
+                slow: "Download too slow?",
+                mirror: "Use Baidu Pan Mirror",
+                version: "v1.0.0 • For Minecraft 1.20+"
+            }
+        };
+
+        let currentLang = 'zh';
+
+        // Download Functions
+        function downloadMain() {
+            window.open('https://github.com/123456wwwhhh/1/releases/download/v1.0/1.0.0.beta.zip', '_blank');
+        }
+
+        function downloadMirror() {
+            window.open('https://pan.baidu.com/s/1s9Cr4-nx-Zj4IBMrf8OLCA?pwd=1435', '_blank');
+        }
+
+        // Language Switcher
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update Button Styles
+            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            // Update Content with Fade Effect
+            const elements = ['main-title', 'sub-title', 'download-btn-text', 'slow-text', 'mirror-text', 'version-text'];
+            
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(10px)';
+                    el.style.transition = 'all 0.3s ease';
+                }
+            });
+
+            setTimeout(() => {
+                document.getElementById('main-title').textContent = translations[lang].title;
+                document.getElementById('sub-title').textContent = translations[lang].subtitle;
+                
+                // Keep the icon inside the button
+                const btnText = translations[lang].download;
+                document.getElementById('download-btn-text').innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    ${btnText}
+                `;
+                
+                document.getElementById('slow-text').textContent = translations[lang].slow;
+                document.getElementById('mirror-text').textContent = translations[lang].mirror;
+                document.getElementById('version-text').textContent = translations[lang].version;
+
+                elements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            }, 300);
+        }
+
+        // Bubble Generator
+        function createBubbles() {
+            const container = document.getElementById('bubbles-container');
+            const bubbleCount = 20;
+
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                const size = Math.random() * 60 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                bubble.style.animationDelay = `${Math.random() * 10}s`;
+                
+                container.appendChild(bubble);
+            }
+        }
+
+        // Mouse Parallax Effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            const rays = document.querySelectorAll('.light-ray');
+            rays.forEach((ray, index) => {
+                const speed = (index + 1) * 20;
+                ray.style.transform = `rotate(${20 + (mouseX * 10)}deg) translateX(${(mouseX - 0.5) * speed}px)`;
+            });
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            createBubbles();
+            
+            // Add subtle entrance animation
+            document.querySelector('main').style.opacity = '0';
+            document.querySelector('main').style.transform = 'translateY(30px)';
+            document.querySelector('main').style.transition = 'all 1s ease-out';
+            
+            setTimeout(() => {
+                document.querySelector('main').style.opacity = '1';
+                document.querySelector('main').style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
